@@ -4,6 +4,8 @@ from collections import namedtuple
 
 Mode = namedtuple('Mode', 'start_key intervals')
 
+# Define all modes with their starting poin if the scale only ...
+# ... contains white keys and their intervals.
 ionian = Mode('C', [1,1,0.5,1,1,1,0.5])
 dorian = Mode('D', [1,0.5,1,1,1,0.5,1])
 phrygian = Mode('E', [0.5,1,1,1,0.5,1,1])
@@ -12,8 +14,10 @@ mixolydian = Mode('G', [1,1,0.5,1,1,0.5,1])
 aeolian = Mode('A', [1,0.5,1,1,0.5,1,1])
 locrian = Mode('B', [0.5,1,1,0.5,1,1,1])
 
+# Create mode array.
 modes = [ionian, dorian, phrygian, lydian, mixolydian, aeolian, locrian]
 
+# Defining different key arrays.
 keys_sharp = np.array(['C','C#','D','D#','E','F','F#','G','G#','A','A#','B','C',
 	'C#','D','D#','E','F','F#','G','G#','A','A#','B'])
 keys_flat = np.array(['C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B','C',
@@ -24,6 +28,7 @@ quinten = np.array(['Cb','Gb','Db','Ab','Eb','Bb',
 
 thirds_filter = np.array([0, 2, 4, 6, 1, 3, 5])
 
+# Function that will determine if a key contains flats or sharps.
 def sharp_or_flat(key, mode):
 	index = np.where(quinten == key)[0][0]
 	ref_point = np.where(quinten == mode.start_key)[0][0]
@@ -31,6 +36,7 @@ def sharp_or_flat(key, mode):
 	if index - ref_point < 0:	return False
 	else:	return True
 
+# Given a starting key and a mode, it will determine the scale.
 def get_scales(start_key, mode):
 	keys_arr = keys_sharp
 	if sharp_or_flat(start_key, mode) == False:
@@ -53,10 +59,13 @@ def get_scales(start_key, mode):
 	return scale, scale_2
 
 def thirds_exercise():
-	mode = np.random(modes)
+	mode = rd.choice(modes)
 	print(mode)
 	
 
 scale, scale_2 = get_scales('B', ionian)
+
+
+thirds_exercise()
 
 
